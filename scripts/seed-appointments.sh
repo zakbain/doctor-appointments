@@ -7,10 +7,4 @@ curl -X 'POST' \
   'http://localhost:3000/doctors/'${firstDoctorId}'/appointments' \
   -H 'accept: */*' \
   -H "Content-Type: application/json" \
-  -d '{"startsAt": "2022-7-28T5:00:00", "patientFirstName": "Jordan", patientLastName: "Welding", "type": "New Patient"}'  
-
-curl -X 'POST' \
-  'http://localhost:3000/doctors/'${firstDoctorId}'/appointments' \
-  -H 'accept: */*' \
-  -H "Content-Type: application/json" \
-  -d '{"startsAt": "2022-7-29T6:00:00", "patientFirstName": "Alyssa", patientLastName: "Earhart", "type": "Follow-up"}'  
+  -d '{"startsAt": "2022-07-29T06:30:00.000Z", "patientFirstName": "Alyssa", "patientLastName": "Earhart", "type": "Follow-up"}'  

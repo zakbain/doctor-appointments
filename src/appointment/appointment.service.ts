@@ -17,8 +17,8 @@ export class AppointmentService {
   }
 
   async create(doctorId: number, createDoctorDto: CreateAppointmentDto) {
-    const doctorToCreate = this.appointmentRepository.create(createDoctorDto);
-    doctorToCreate.doctorId = doctorId;
-    return await this.appointmentRepository.save(doctorToCreate);
+    const appointmentToCreate = this.appointmentRepository.create(createDoctorDto);
+    appointmentToCreate.doctorId = doctorId;
+    return await this.appointmentRepository.save(appointmentToCreate);
   }
 }

@@ -21,7 +21,7 @@ export class Appointment {
 
   @Column({type: 'timestamp'})
   startsAt: Date;
-  
-  @Column({ type: "timestamp", nullable: true })
+
+  @Column({ type: "varchar" })
   type: string;
 }
