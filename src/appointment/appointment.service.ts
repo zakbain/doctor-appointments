@@ -12,7 +12,7 @@ export class AppointmentService {
     private readonly appointmentRepository: Repository<Appointment>,
   ) { }
 
-  async getByDoctorId(doctorId) {
+  async getByDoctorId(doctorId: number) {
     return await this.appointmentRepository.findBy({ doctorId });
   }
 
@@ -20,5 +20,9 @@ export class AppointmentService {
     const appointmentToCreate = this.appointmentRepository.create(createDoctorDto);
     appointmentToCreate.doctorId = doctorId;
     return await this.appointmentRepository.save(appointmentToCreate);
+  }
+
+  async delete(doctorId: number, appointmentId: number) {
+    return await this.appointmentRepository.delete({doctorId: doctorId, id: appointmentId});
   }
 }
