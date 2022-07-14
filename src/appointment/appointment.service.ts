@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Appointment } from 'src/database/entities';
 import { Between, Repository } from 'typeorm';
@@ -26,6 +26,16 @@ export class AppointmentService {
   }
 
   async create(doctorId: number, createDoctorDto: CreateAppointmentDto) {
+    const startsAt = new Date(createDoctorDto.startsAt);
+    if (!this.validateStartTime(startsAt)) {
+      throw new BadRequestException('Invalid start time');
+    }
+
+    const appointmentsAtSameTime = await this.getByDoctorIdBetweenDates(doctorId, startsAt, startsAt);
+    if (appointmentsAtSameTime.length > 2) {
+      throw new ConflictException('Can\'t schedule more than 3 appointments at the same time');
+    }
+
     const appointmentToCreate = this.appointmentRepository.create(createDoctorDto);
     appointmentToCreate.doctorId = doctorId;
     return await this.appointmentRepository.save(appointmentToCreate);
@@ -33,5 +43,9 @@ export class AppointmentService {
 
   async delete(doctorId: number, appointmentId: number) {
     return await this.appointmentRepository.delete({ doctorId: doctorId, id: appointmentId });
+  }
+
+  private validateStartTime(startsAt: Date): boolean {
+    return (startsAt.getSeconds() == 0 && startsAt.getMinutes() % 15 == 0);
   }
 }
