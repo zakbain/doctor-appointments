@@ -1,9 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { AppointmentService, CreateAppointmentDto } from './appointment.service';
 
 @Controller('doctors/:doctorId/appointments')
 export class AppointmentController {
   constructor(private readonly appointmentService: AppointmentService) { }
+
+
+  @Get('byDates')
+  getBetween(@Param('doctorId') doctorId: number, @Query() query) {
+    return this.appointmentService.getByDoctorIdBetweenDates(doctorId, query.startDate, query.endDate);
+  }
 
   @Get()
   getAll(@Param('doctorId') doctorId: number) {
